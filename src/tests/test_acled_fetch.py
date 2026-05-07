@@ -140,3 +140,47 @@ def test_page_scoped_retry_does_not_restart_pagination(monkeypatch):
     assert requested_pages == [1, 2, 2, 3]
     assert requested_pages.count(1) == 1
     assert list(df["event_id_cnty"]) == ["evt-1", "evt-2"]
+
+
+def test_empty_data_page_stops_pagination_when_count_is_null(monkeypatch):
+    module = _load_acled_fetch_module(monkeypatch)
+
+    requested_pages = []
+
+    def fake_get(_endpoint, headers=None, params=None, timeout=None):
+        del headers
+        assert timeout == 100
+        page = params["page"]
+        requested_pages.append(page)
+
+        if page == 1:
+            return _FakeResponse(
+                {
+                    "count": None,
+                    "data": [
+                        {
+                            "event_id_cnty": "evt-1",
+                            "event_date": "2024-01-01",
+                            "iso": 1,
+                            "region": "Region",
+                            "country": "Country",
+                            "admin1": "Admin",
+                            "event_type": "Battles",
+                            "fatalities": 1,
+                            "timestamp": "1704067200",
+                        }
+                    ],
+                }
+            )
+
+        if page == 2:
+            return _FakeResponse({"count": None, "data": []})
+
+        raise AssertionError(f"Unexpected page request: {page}")
+
+    monkeypatch.setattr(module.requests, "get", fake_get)
+
+    df = module.get_acled_events(access_token="token")
+
+    assert requested_pages == [1, 2]
+    assert list(df["event_id_cnty"]) == ["evt-1"]

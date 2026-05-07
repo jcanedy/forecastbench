@@ -120,11 +120,13 @@ def get_acled_events(access_token: str) -> pd.DataFrame:
         params["page"] += 1
         logger.info(f"Downloading page {params['page']}")
         data = get_acled_page(endpoint=endpoint, headers=headers, params=params)
+        rows = data.get("data", [])
 
-        if data["count"] == 0:
+        if not rows:
+            logger.info(f"No ACLED rows returned on page {params['page']}; stopping pagination.")
             break
 
-        df_tmp = pd.DataFrame(data["data"]).astype(acled.FETCH_COLUMN_DTYPE)
+        df_tmp = pd.DataFrame(rows).astype(acled.FETCH_COLUMN_DTYPE)
         df_new_rows = df_tmp[~df_tmp["event_id_cnty"].isin(seen_ids)]
         seen_ids.update(df_new_rows["event_id_cnty"])
         dfs.append(df_new_rows)

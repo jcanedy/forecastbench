@@ -237,15 +237,6 @@ MODELS_TO_RUN = {
         # See model_eval.get_response_from_oai_model() for use.
         "reasoning_model": True,
     },
-    "gpt-5.1-2025-11-13": {
-        "source": OAI_SOURCE,
-        "org": OAI_ORG,
-        "full_name": "gpt-5.1-2025-11-13",
-        "token_limit": 128000,
-        # `reasoning_model` is OpenAI specific. It should be true for o1 and o3 class models.
-        # See model_eval.get_response_from_oai_model() for use.
-        "reasoning_model": True,
-    },
     "gpt-5-mini-2025-08-07": {
         "source": OAI_SOURCE,
         "org": OAI_ORG,
@@ -263,15 +254,6 @@ MODELS_TO_RUN = {
         # `reasoning_model` is OpenAI specific. It should be true for o1 and o3 class models.
         # See model_eval.get_response_from_oai_model() for use.
         "reasoning_model": True,
-    },
-    "gpt-4.1-2025-04-14": {
-        "source": OAI_SOURCE,
-        "org": OAI_ORG,
-        "full_name": "gpt-4.1-2025-04-14",
-        "token_limit": 128000,
-        # `reasoning_model` is OpenAI specific. It should be true for o1 and o3 class models.
-        # See model_eval.get_response_from_oai_model() for use.
-        "reasoning_model": False,
     },
     # together.ai context window from: https://docs.together.ai/docs/serverless-models
     "DeepSeek-V3.1": {
@@ -335,12 +317,6 @@ MODELS_TO_RUN = {
         "full_name": "claude-sonnet-4-6",
         "token_limit": 200000,
     },
-    "claude-opus-4-6": {
-        "source": ANTHROPIC_SOURCE,
-        "org": ANTHROPIC_ORG,
-        "full_name": "claude-opus-4-6",
-        "token_limit": 200000,
-    },
     "claude-opus-4-7": {
         "source": ANTHROPIC_SOURCE,
         "org": ANTHROPIC_ORG,
@@ -348,18 +324,6 @@ MODELS_TO_RUN = {
         "token_limit": 200000,
     },
     # xAI context window from: https://console.x.ai/ -> click on API Models (cube symbol on menu)
-    "grok-4-1-fast-reasoning": {
-        "source": XAI_SOURCE,
-        "org": XAI_ORG,
-        "full_name": "grok-4-1-fast-reasoning",
-        "token_limit": 2000000,
-    },
-    "grok-4-1-fast-non-reasoning": {
-        "source": XAI_SOURCE,
-        "org": XAI_ORG,
-        "full_name": "grok-4-1-fast-non-reasoning",
-        "token_limit": 2000000,
-    },
     "grok-4.20-0309-reasoning": {
         "source": XAI_SOURCE,
         "org": XAI_ORG,
@@ -372,6 +336,12 @@ MODELS_TO_RUN = {
         "full_name": "grok-4.20-0309-non-reasoning",
         "token_limit": 2000000,
     },
+    "grok-4.3": {
+        "source": XAI_SOURCE,
+        "org": XAI_ORG,
+        "full_name": "grok-4.3",
+        "token_limit": 1000000,
+    },
     # google context window from: https://ai.google.dev/gemini-api/docs/models
     "gemini-3.1-pro-preview": {
         "source": GOOGLE_SOURCE,
@@ -383,12 +353,6 @@ MODELS_TO_RUN = {
         "source": GOOGLE_SOURCE,
         "org": GOOGLE_ORG,
         "full_name": "gemini-3.1-flash-lite-preview",
-        "token_limit": 1048576,
-    },
-    "gemini-2.5-pro": {
-        "source": GOOGLE_SOURCE,
-        "org": GOOGLE_ORG,
-        "full_name": "gemini-2.5-pro",
         "token_limit": 1048576,
     },
     "gemini-3-flash-preview": {

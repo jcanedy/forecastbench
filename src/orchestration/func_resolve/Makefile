@@ -38,7 +38,7 @@ deploy : .gcloudignore requirements.txt Dockerfile
 		--region $(CLOUD_DEPLOY_REGION) \
 		--tasks 1 \
 		--parallelism 50 \
-		--task-timeout 2h \
+		--task-timeout 3h \
 		--memory 8Gi \
 		--cpu $(NUM_CPUS) \
 		--max-retries 0 \

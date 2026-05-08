@@ -14,7 +14,7 @@ metadata = [
 ]
 resolve_forecasts = [
     [
-        ("func-resolve-forecasts", True, cloud_run.timeout_1h * 2, 50),
+        ("func-resolve-forecasts", True, cloud_run.timeout_1h * 3, 50),
     ]
 ]
 leaderboards = [

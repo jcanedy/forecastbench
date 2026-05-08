@@ -154,7 +154,7 @@ def main():
 
     # Launch resolve forecasts (non-blocking)
     dict_to_use_resolve_forecasts = "resolve_forecasts"
-    timeout_resolve_forecasts = cloud_run.timeout_1h * 2
+    timeout_resolve_forecasts = cloud_run.timeout_1h * 3
     operation_resolve_forecasts = call_worker(
         dict_to_use=dict_to_use_resolve_forecasts,
         task_count=1,

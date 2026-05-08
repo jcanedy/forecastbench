@@ -196,8 +196,8 @@ Gemini-2.5-Flash-Preview-04-17 (zero shot with freeze values),2025-04-17
 Gemini-2.5-Flash-Preview-04-17 (zero shot),2025-04-17
 Gemini-3-Flash-Preview (zero shot with freeze values),2025-12-17
 Gemini-3-Flash-Preview (zero shot),2025-12-17
-Gemini-3-1-Flash-Lite-Preview (zero shot with freeze values),2026-03-03
-Gemini-3-1-Flash-Lite-Preview (zero shot),2026-03-03
+Gemini-3.1-Flash-Lite-Preview (zero shot with freeze values),2026-03-03
+Gemini-3.1-Flash-Lite-Preview (zero shot),2026-03-03
 Gemini-2.5-Pro (scratchpad with freeze values),2025-06-17
 Gemini-2.5-Pro (scratchpad),2025-06-17
 Gemini-2.5-Pro (zero shot with freeze values),2025-06-17
@@ -236,12 +236,14 @@ Grok-4-1-Fast-Reasoning (zero shot with freeze values),2025-11-17
 Grok-4-1-Fast-Reasoning (zero shot),2025-11-17
 Grok-4-1-Fast-Non-Reasoning (zero shot with freeze values),2025-11-17
 Grok-4-1-Fast-Non-Reasoning (zero shot),2025-11-17
-Grok-4-20-Beta-0309-Reasoning (zero shot with freeze values),2026-03-09
-Grok-4-20-Beta-0309-Reasoning (zero shot),2026-03-09
-Grok-4-20-Beta-0309-Non-Reasoning (zero shot with freeze values),2026-03-09
-Grok-4-20-Beta-0309-Non-Reasoning (zero shot),2026-03-09
-Grok-4-20-0309-Non-Reasoning (zero shot with freeze values),2026-03-09
-Grok-4-20-0309-Non-Reasoning (zero shot),2026-03-09
+Grok-4.20-Beta-0309-Reasoning (zero shot with freeze values),2026-03-09
+Grok-4.20-Beta-0309-Reasoning (zero shot),2026-03-09
+Grok-4.20-Beta-0309-Non-Reasoning (zero shot with freeze values),2026-03-09
+Grok-4.20-Beta-0309-Non-Reasoning (zero shot),2026-03-09
+Grok-4.20-0309-Non-Reasoning (zero shot with freeze values),2026-03-09
+Grok-4.20-0309-Non-Reasoning (zero shot),2026-03-09
+Grok-4.20-0309-Reasoning (zero shot with freeze values),2026-03-09
+Grok-4.20-0309-Reasoning (zero shot),2026-03-09
 Grok-4.3 (zero shot with freeze values),2026-05-01
 Grok-4.3 (zero shot),2026-05-01
 UnusedGrok-2-1212 (scratchpad with freeze values),2024-12-12

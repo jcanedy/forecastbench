@@ -38,6 +38,27 @@ MIN_MARKET_LIQUIDITY = 25000
 # This downloads every resolved question's file, so it's costly and off by default.
 
 
+class FailedConditionIdsError(ValueError):
+    """Raised when one or more unresolved condition IDs cannot be fetched."""
+
+    def __init__(self, condition_ids):
+        """Initialize the error with the complete failed condition ID list."""
+        self.condition_ids = list(condition_ids)
+        super().__init__(
+            "Problem getting markets for condition ids: "
+            f"{json.dumps(self.condition_ids, indent=2)}"
+        )
+
+
+class ConditionIdMarketNotFoundError(ValueError):
+    """Raised when the Gamma API cannot find a market for one condition ID."""
+
+    def __init__(self, condition_id):
+        """Initialize the error with the condition ID that could not be fetched."""
+        self.condition_id = condition_id
+        super().__init__(f"Problem getting market for condition id {condition_id}.")
+
+
 @backoff.on_exception(
     backoff.expo,
     requests.exceptions.RequestException,
@@ -154,7 +175,7 @@ def fetch_all_questions(dfq):
                 return markets[0]
         message = f"Problem getting market for condition id {condition_id}."
         logger.error(message)
-        raise ValueError(message)
+        raise ConditionIdMarketNotFoundError(condition_id)
 
     def get_yes_index(market):
         """Return the index associated with a "Yes" bid."""
@@ -245,11 +266,17 @@ def fetch_all_questions(dfq):
 
     all_existing_unresolved_questions = []
     invalid_question_ids = set(polymarket.NULLIFIED_QUESTION_IDS)
+    failed_condition_ids = []
     for id_ in unresolved_ids:
         time.sleep(0.05)
         if id_ in invalid_question_ids:
             continue
-        q = get_market(condition_id=id_)
+        try:
+            q = get_market(condition_id=id_)
+        except ConditionIdMarketNotFoundError:
+            failed_condition_ids.append(id_)
+            logger.warning(f"Skipping unresolved condition id {id_}.")
+            continue
         if not is_market_binary(q):
             # Questions that were not Yes/No questions should be marked as resolved/closed so
             # they're not selected in question sets.
@@ -266,6 +293,9 @@ def fetch_all_questions(dfq):
 
         q["price_history"] = price_history
         all_existing_unresolved_questions.append(q)
+
+    if failed_condition_ids:
+        raise FailedConditionIdsError(sorted(failed_condition_ids))
 
     logger.info("Finished fetching unresolved questions!")
 

@@ -2216,7 +2216,7 @@ def two_way_fixed_effects(df: pd.DataFrame, question_type) -> pd.DataFrame:
 
         # Remove models with old release dates
         org_mask = df_fe["model_organization"] == constants.BENCHMARK_NAME
-        date_mask = df_fe["days_since_model_release"] < MODEL_RELEASE_DAYS_CUTOFF
+        date_mask = df_fe["model_age_at_due_date"] < MODEL_RELEASE_DAYS_CUTOFF
         df_fe = df_fe[org_mask | date_mask].reset_index(drop=True)
 
         mod = pf.feols("brier_score ~ 1 | question_pk + model_pk", data=df_fe)
@@ -2791,23 +2791,23 @@ def apply_brier_index_transform(
 
 def get_model_release_date_info(
     df: pd.DataFrame,
-    days_since_release: bool = True,
-    model_release_date: bool = False,
+    add_model_age_at_due_date: bool = True,
+    add_model_release_date: bool = False,
 ) -> pd.DataFrame:
     """Add the requested column(s) related to the model release date.
 
     Args:
         df (pd.DataFrame): Combined forecast set.
-        days_since_release (bool, optional): If True, adds the 'days_since_model_release' column
+        add_model_age_at_due_date (bool, optional): If True, adds the 'model_age_at_due_date' column
             with the number of days between the model release date and forecast due date.
             Defaults to True.
-        model_release_date (bool, optional): If True, includes the 'model_release_date' column in
-            the output. Defaults to False.
+        add_model_release_date (bool, optional): If True, includes the 'model_release_date' column
+            in the output. Defaults to False.
 
     Returns:
-        pd.DataFrame: The input DataFrame with additional columns 'days_since_model_release'
-            (if `days_since_release` is True) and/or 'model_release_date' (if `model_release_date`
-            is True). Rows with missing release dates are excluded.
+        pd.DataFrame: The input DataFrame with additional columns 'model_age_at_due_date'
+            (if `add_model_age_at_due_date` is True) and/or 'model_release_date' (if
+            `add_model_release_date` is True). Rows with missing release dates are excluded.
     """
     cols_to_return = df.columns.tolist()
     df_forecastbench_models = df[df["organization"] == constants.BENCHMARK_NAME].copy()
@@ -2848,12 +2848,12 @@ def get_model_release_date_info(
         ignore_index=True,
     )
 
-    if model_release_date:
+    if add_model_release_date:
         cols_to_return += ["model_release_date"]
 
-    if days_since_release:
-        cols_to_return += ["days_since_model_release"]
-        df_with_release_dates["days_since_model_release"] = (
+    if add_model_age_at_due_date:
+        cols_to_return += ["model_age_at_due_date"]
+        df_with_release_dates["model_age_at_due_date"] = (
             pd.to_datetime(df_with_release_dates["forecast_due_date"])
             - pd.to_datetime(df_with_release_dates["model_release_date"])
         ).dt.days
@@ -3013,8 +3013,8 @@ def get_sota_super_parity_expected_dates(
     if "model_release_date" not in df_leaderboard.columns:
         df_leaderboard = get_model_release_date_info(
             df=df_leaderboard.copy(),
-            days_since_release=False,
-            model_release_date=True,
+            add_model_age_at_due_date=False,
+            add_model_release_date=True,
         )
 
     df_leaderboard = df_leaderboard[
@@ -3200,8 +3200,8 @@ def make_leaderboard(
     df = combine_forecasting_rounds(leaderboard_entries)
     df = get_model_release_date_info(
         df=df,
-        days_since_release=True,
-        model_release_date=False,
+        add_model_age_at_due_date=True,
+        add_model_release_date=False,
     )
 
     # The scoring functions to consider
@@ -3282,8 +3282,8 @@ def make_leaderboard(
     # Write leaderboard
     df_leaderboard = get_model_release_date_info(
         df=df_leaderboard,
-        days_since_release=False,
-        model_release_date=True,
+        add_model_age_at_due_date=False,
+        add_model_release_date=True,
     )
     for leaderboard_type in [LeaderboardType.BASELINE, LeaderboardType.TOURNAMENT]:
         df_leaderboard_lt = (
@@ -3314,8 +3314,8 @@ def make_dataset_leaderboard(
     df = combine_forecasting_rounds(leaderboard_entries)
     df = get_model_release_date_info(
         df=df,
-        days_since_release=True,
-        model_release_date=False,
+        add_model_age_at_due_date=True,
+        add_model_release_date=False,
     )
 
     primary_scoring_func = two_way_fixed_effects

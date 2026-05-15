@@ -1,10 +1,7 @@
 ---
 layout: splash
 permalink: /
-head_scripts:
-    - https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js
 footer_scripts:
-    - /assets/js/particles.js
     - /assets/js/align-check-card.js
 head_css:
   - https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css
@@ -25,6 +22,7 @@ after_footer_scripts:
   - /assets/js/explore_sota_graph.js
 header:
   overlay_color: "#102B23"
+  illustration: /assets/images/illustrations/fri-illustration-8.jpg
 excerpt: "A dynamic, contamination-free benchmark of LLM forecasting accuracy with human comparison groups, serving as a valuable proxy for general intelligence."
 featured: "Scoring with the<br>Brier Index"
 featured_link: "https://forecastingresearch.substack.com/p/introducing-the-brier-index"
